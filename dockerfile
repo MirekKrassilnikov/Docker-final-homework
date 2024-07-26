@@ -1,8 +1,13 @@
 FROM golang:1.20
+
 WORKDIR /app
-COPY go.mod go.sum ./
+
+COPY ..
+
 RUN go mod download
-COPY *.go ./
-COPY tracker.db /
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /my_app
-CMD ["/my_app"]
+
+ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
+
+RUN go build -o /parcel-database
+
+CMD ["/parcel-database"]
