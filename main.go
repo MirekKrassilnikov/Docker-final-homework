@@ -97,9 +97,10 @@ func (s ParcelService) Delete(number int) error {
 }
 
 func main() {
+
 	db, err := sql.Open("sqlite", "/tracker.db")
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("cant register client: %s", err)
 		return
 	}
 	defer db.Close()
@@ -107,12 +108,18 @@ func main() {
 	store := NewParcelStore(db)
 	service := NewParcelService(store)
 
+	err = store.CreateTable()
+	if err != nil {
+		fmt.Printf("cant create table: %s", err)
+		return
+	}
+
 	// регистрация посылки
 	client := 1
 	address := "Псков, д. Пушкина, ул. Колотушкина, д. 5"
 	p, err := service.Register(client, address)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("cant register client: %s", err)
 		return
 	}
 

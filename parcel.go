@@ -12,6 +12,10 @@ func NewParcelStore(db *sql.DB) ParcelStore {
 	return ParcelStore{db: db}
 }
 
+func (s ParcelStore) CreateTable() error {
+	_, err := s.db.Exec("CREATE TABLE parcel (number INTEGER, client INTEGER,status TEXT,address TEXT,created_at TEXT);")
+	return err
+}
 func (s ParcelStore) Add(p Parcel) (int, error) {
 	res, err := s.db.Exec("INSERT INTO parcel (client, status, address, created_at) VALUES (:client, :status, :address, :created_at)",
 		sql.Named("client", p.Client),
