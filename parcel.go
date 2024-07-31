@@ -13,7 +13,7 @@ func NewParcelStore(db *sql.DB) ParcelStore {
 }
 
 func (s ParcelStore) CreateTable() error {
-	_, err := s.db.Exec("CREATE TABLE parcel (number INTEGER, client INTEGER,status TEXT,address TEXT,created_at TEXT);")
+	_, err := s.db.Exec("CREATE TABLE IF NOT EXISTS parcel (number INTEGER, client INTEGER,status TEXT,address TEXT,created_at TEXT);")
 	return err
 }
 func (s ParcelStore) Add(p Parcel) (int, error) {
